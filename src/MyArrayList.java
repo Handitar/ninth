@@ -1,21 +1,27 @@
 
-public class MyArrayList {
-    private Object[] data;
+public class MyArrayList<T> {
+    private T[] data;
     private int size;
 
+    //@SuppressWarnings("unchecked")
     public MyArrayList() {
-        data = new Object[10];
+        data = (T[]) new Object[10];
         size = 0;
     }
 
-    public void add(Object value) {
+    public void add(T value) {
         ensureCapacity();
         data[size++] = value;
     }
 
-    public Object remove(int index) {
+    public T get(int index) {
         checkIndex(index);
-        Object removed = data[index];
+        return data[index];
+    }
+
+    public T remove(int index) {
+        checkIndex(index);
+        T removed = data[index];
 
         for (int i = index; i < size - 1; i++) {
             data[i] = data[i + 1];
@@ -38,22 +44,17 @@ public class MyArrayList {
         return size;
     }
 
-    public Object get(int index) {
-        checkIndex(index);
-        return data[index];
-    }
-
     //допоміжні метооди
 
+    //@SuppressWarnings("unchecked")
     private void ensureCapacity() {
         if (size == data.length) {
-            Object[] newData = new Object[data.length * 2];
-            for (int i = 0; i < data.length; i++) {
-                newData[i] = data[i];
-            }
+            T[] newData = (T[]) new Object[data.length * 2];
+            System.arraycopy(data, 0, newData, 0, data.length);
             data = newData;
         }
     }
+
 
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {

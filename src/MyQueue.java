@@ -1,20 +1,20 @@
+public class MyQueue<T> {
 
-public class MyQueue {
-    private static class Node {
-        Object value;
-        Node next;
+    private static class Node<T> {
+        T value;
+        Node<T> next;
 
-        Node(Object value) {
+        Node(T value) {
             this.value = value;
         }
     }
 
-    private Node head;
-    private Node tail;
+    private Node<T> head;
+    private Node<T> tail;
     private int size;
 
-    public void add(Object value) {
-        Node newNode = new Node(value);
+    public void add(T value) {
+        Node<T> newNode = new Node<>(value);
 
         if (tail == null) {
             head = newNode;
@@ -27,21 +27,17 @@ public class MyQueue {
         size++;
     }
 
-    public Object peek() {
+    public T peek() {
         return (head != null) ? head.value : null;
     }
 
-    public Object poll() {
-        if (head == null) {
-            return null;
-        }
+    public T poll() {
+        if (head == null) return null;
 
-        Object value = head.value;
+        T value = head.value;
         head = head.next;
 
-        if (head == null) {
-            tail = null;
-        }
+        if (head == null) tail = null;
 
         size--;
         return value;

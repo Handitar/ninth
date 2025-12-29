@@ -1,21 +1,22 @@
 
-public class MyLinkedList {
-    private static class Node {
-        Object value;
-        Node next;
-        Node prev;
+public class MyLinkedList<T> {
 
-        Node(Object value) {
+    private static class Node<T> {
+        T value;
+        Node<T> next;
+        Node<T> prev;
+
+        Node(T value) {
             this.value = value;
         }
     }
 
-    private Node head;
-    private Node tail;
+    private Node<T> head;
+    private Node<T> tail;
     private int size;
 
-    public void add(Object value) {
-        Node newNode = new Node(value);
+    public void add(T value) {
+        Node<T> newNode = new Node<>(value);
 
         if (head == null) {
             head = newNode;
@@ -29,19 +30,19 @@ public class MyLinkedList {
         size++;
     }
 
-    public Object get(int index) {
+    public T get(int index) {
         checkIndex(index);
         return getNode(index).value;
     }
 
-    public Object remove(int index) {
+    public T remove(int index) {
         checkIndex(index);
 
-        Node node = getNode(index);
-        Object removedValue = node.value;
+        Node<T> node = getNode(index);
+        T removed = node.value;
 
-        Node prev = node.prev;
-        Node next = node.next;
+        Node<T> prev = node.prev;
+        Node<T> next = node.next;
 
         if (prev == null) {
             head = next;
@@ -56,13 +57,13 @@ public class MyLinkedList {
         }
 
         size--;
-        return removedValue;
+        return removed;
     }
 
     public void clear() {
-        Node current = head;
+        Node<T> current = head;
         while (current != null) {
-            Node next = current.next;
+            Node<T> next = current.next;
             current.prev = null;
             current.next = null;
             current.value = null;
@@ -77,21 +78,17 @@ public class MyLinkedList {
         return size;
     }
 
-    //допоміжні метооди
+    //доп. методи
 
-    private Node getNode(int index) { // індекс ближче до head - ідемо зліва, а якщо ближче до tail - ідемо справа
+    private Node<T> getNode(int index) {
         if (index < size / 2) {
-            Node current = head;
-            for (int i = 0; i < index; i++) {
-                current = current.next;
-            }
-            return current;
+            Node<T> cur = head;
+            for (int i = 0; i < index; i++) cur = cur.next;
+            return cur;
         } else {
-            Node current = tail;
-            for (int i = size - 1; i > index; i--) {
-                current = current.prev;
-            }
-            return current;
+            Node<T> cur = tail;
+            for (int i = size - 1; i > index; i--) cur = cur.prev;
+            return cur;
         }
     }
 

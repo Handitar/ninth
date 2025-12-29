@@ -1,48 +1,45 @@
+public class MyStack<T> {
 
-public class MyStack {
-    private static class Node {
-        Object value;
-        Node next;
+    private static class Node<T> {
+        T value;
+        Node<T> next;
 
-        Node(Object value) {
+        Node(T value) {
             this.value = value;
         }
     }
-    private Node top;
+
+    private Node<T> top;
     private int size;
 
-    public void push(Object value) {
-        Node newNode = new Node(value);
+    public void push(T value) {
+        Node<T> newNode = new Node<>(value);
         newNode.next = top;
         top = newNode;
         size++;
     }
 
-    public Object peek() {
+    public T peek() {
         return (top != null) ? top.value : null;
     }
 
-    public Object pop() {
-        if (top == null) {
-            return null;
-        }
+    public T pop() {
+        if (top == null) return null;
 
-        Object value = top.value;
+        T value = top.value;
         top = top.next;
         size--;
 
         return value;
     }
 
-    public Object remove(int index) {
+    public T remove(int index) {
         checkIndex(index);
 
-        if (index == 0) {
-            return pop();
-        }
+        if (index == 0) return pop();
 
-        Node prev = getNode(index - 1);
-        Node toRemove = prev.next;
+        Node<T> prev = getNode(index - 1);
+        Node<T> toRemove = prev.next;
 
         prev.next = toRemove.next;
         size--;
@@ -61,12 +58,10 @@ public class MyStack {
 
     //допоміжні методи
 
-    private Node getNode(int index) {
-        Node current = top;
-        for (int i = 0; i < index; i++) {
-            current = current.next;
-        }
-        return current;
+    private Node<T> getNode(int index) {
+        Node<T> cur = top;
+        for (int i = 0; i < index; i++) cur = cur.next;
+        return cur;
     }
 
     private void checkIndex(int index) {
